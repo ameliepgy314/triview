@@ -27,8 +27,215 @@
     </nav>
     <div class="topbar-meta">
       <span id="last-updated"></span>
+      <button id="edit-toggle" class="edit-toggle">편집 모드</button>
+      <span id="save-indicator" class="save-indicator hidden"></span>
     </div>
   </header>
+
+  <dialog id="token-modal" class="modal">
+    <form method="dialog" class="modal-body">
+      <h2>편집 모드 켜기</h2>
+      <p>사이트에서 직접 수정하려면 본인 GitHub 토큰(PAT)이 한 번 필요해.
+        브라우저에만 저장되고 서버로는 절대 안 보내져.</p>
+      <ol class="setup-steps">
+        <li><a href="https://github.com/settings/personal-access-tokens/new" target="_blank" rel="noopener">github.com → Settings → Developer settings → Personal access tokens → Fine-grained tokens → Generate new token</a></li>
+        <li><b>Resource owner</b>: <code>ameliepgy314</code></li>
+        <li><b>Repository access</b>: Only select repositories → <code>triview</code></li>
+        <li><b>Permissions → Repository permissions → Contents</b>: <b>Read and write</b></li>
+        <li>"Generate token" 클릭 후 나오는 <code>github_pat_...</code> 토큰을 복사해서 아래에 붙여넣기</li>
+      </ol>
+      <label class="field">
+        <span>GitHub Personal Access Token</span>
+        <input type="password" id="token-input" placeholder="github_pat_..." autocomplete="off" />
+      </label>
+      <div id="token-error" class="form-error"></div>
+      <div class="modal-actions">
+        <button type="button" id="token-cancel" class="btn btn-ghost">취소</button>
+        <button type="button" id="token-save" class="btn btn-primary">확인</button>
+      </div>
+    </form>
+  </dialog>
+
+  <dialog id="meeting-modal" class="modal">
+    <form method="dialog" class="modal-body">
+      <h2 id="meeting-modal-title">새 회의록</h2>
+      <div class="form-row two">
+        <label class="field">
+          <span>날짜</span>
+          <input type="date" id="meeting-date" />
+        </label>
+        <label class="field">
+          <span>제목</span>
+          <input type="text" id="meeting-title" placeholder="예: 주간 동기화" />
+        </label>
+      </div>
+      <label class="field">
+        <span>참석자 (쉼표로 구분)</span>
+        <input type="text" id="meeting-attendees" placeholder="가영, 멤버2, 멤버3" />
+      </label>
+      <label class="field">
+        <span>본문 (마크다운 가능)</span>
+        <textarea id="meeting-body-input" rows="12" placeholder="## 결정사항&#10;- ...&#10;&#10;## 액션 아이템&#10;- [ ] ..."></textarea>
+      </label>
+      <div id="meeting-error" class="form-error"></div>
+      <div class="modal-actions">
+        <button type="button" id="meeting-cancel" class="btn btn-ghost">취소</button>
+        <button type="button" id="meeting-save" class="btn btn-primary">저장</button>
+      </div>
+    </form>
+  </dialog>
+
+  <dialog id="idea-modal" class="modal">
+    <form method="dialog" class="modal-body">
+      <h2 id="idea-modal-title">새 아이디어</h2>
+      <div class="form-row two">
+        <label class="field">
+          <span>카테고리</span>
+          <input type="text" id="idea-cat-input" placeholder="브랜드 / 제품 / 마케팅 ..." list="idea-cat-list" />
+          <datalist id="idea-cat-list"></datalist>
+        </label>
+        <label class="field">
+          <span>상태</span>
+          <select id="idea-status">
+            <option value="논의중">논의중</option>
+            <option value="긍정">긍정</option>
+            <option value="검토">검토</option>
+            <option value="보류">보류</option>
+            <option value="진행">진행</option>
+          </select>
+        </label>
+      </div>
+      <label class="field">
+        <span>제목</span>
+        <input type="text" id="idea-title-input" />
+      </label>
+      <label class="field">
+        <span>내용</span>
+        <textarea id="idea-content-input" rows="6"></textarea>
+      </label>
+      <label class="field">
+        <span>작성자</span>
+        <select id="idea-author"></select>
+      </label>
+      <input type="hidden" id="idea-edit-id" />
+      <div id="idea-error" class="form-error"></div>
+      <div class="modal-actions">
+        <button type="button" id="idea-cancel" class="btn btn-ghost">취소</button>
+        <button type="button" id="idea-save" class="btn btn-primary">저장</button>
+      </div>
+    </form>
+  </dialog>
+
+  <dialog id="member-modal" class="modal">
+    <form method="dialog" class="modal-body">
+      <h2 id="member-modal-title">새 멤버</h2>
+      <label class="field">
+        <span>이름</span>
+        <input type="text" id="member-name" />
+      </label>
+      <label class="field">
+        <span>역할</span>
+        <input type="text" id="member-role" />
+      </label>
+      <div class="form-row two">
+        <label class="field">
+          <span>색상</span>
+          <input type="color" id="member-color" value="#2563eb" />
+        </label>
+        <label class="field">
+          <span>ID (영문, 다른 데이터에서 owner 참조용)</span>
+          <input type="text" id="member-id" pattern="[a-z0-9_-]+" placeholder="예: jiwon" />
+        </label>
+      </div>
+      <input type="hidden" id="member-edit-id" />
+      <div id="member-error" class="form-error"></div>
+      <div class="modal-actions">
+        <button type="button" id="member-cancel" class="btn btn-ghost">취소</button>
+        <button type="button" id="member-save" class="btn btn-primary">저장</button>
+      </div>
+    </form>
+  </dialog>
+
+  <dialog id="task-modal" class="modal">
+    <form method="dialog" class="modal-body">
+      <h2 id="task-modal-title">새 태스크</h2>
+      <label class="field">
+        <span>제목</span>
+        <input type="text" id="task-title" />
+      </label>
+      <div class="form-row two">
+        <label class="field">
+          <span>담당자</span>
+          <select id="task-owner"></select>
+        </label>
+        <label class="field">
+          <span>상태</span>
+          <select id="task-status">
+            <option value="todo">대기</option>
+            <option value="doing">진행중</option>
+            <option value="done">완료</option>
+            <option value="blocked">막힘</option>
+          </select>
+        </label>
+      </div>
+      <label class="field">
+        <span>마감일</span>
+        <input type="date" id="task-due" />
+      </label>
+      <label class="field">
+        <span>메모</span>
+        <textarea id="task-notes" rows="3"></textarea>
+      </label>
+      <input type="hidden" id="task-stage-id" />
+      <input type="hidden" id="task-edit-id" />
+      <div id="task-error" class="form-error"></div>
+      <div class="modal-actions">
+        <button type="button" id="task-cancel" class="btn btn-ghost">취소</button>
+        <button type="button" id="task-save" class="btn btn-primary">저장</button>
+      </div>
+    </form>
+  </dialog>
+
+  <dialog id="stage-modal" class="modal">
+    <form method="dialog" class="modal-body">
+      <h2 id="stage-modal-title">새 단계</h2>
+      <div class="form-row two">
+        <label class="field">
+          <span>번호</span>
+          <input type="text" id="stage-num" placeholder="예: 14" />
+        </label>
+        <label class="field">
+          <span>ID (영문)</span>
+          <input type="text" id="stage-id" pattern="[a-z0-9_-]+" placeholder="예: retention" />
+        </label>
+      </div>
+      <label class="field">
+        <span>이름</span>
+        <input type="text" id="stage-name" />
+      </label>
+      <label class="field">
+        <span>설명</span>
+        <input type="text" id="stage-desc" />
+      </label>
+      <input type="hidden" id="stage-edit-id" />
+      <div id="stage-error" class="form-error"></div>
+      <div class="modal-actions">
+        <button type="button" id="stage-cancel" class="btn btn-ghost">취소</button>
+        <button type="button" id="stage-save" class="btn btn-primary">저장</button>
+      </div>
+    </form>
+  </dialog>
+
+  <dialog id="confirm-modal" class="modal">
+    <form method="dialog" class="modal-body">
+      <h2 id="confirm-title">정말 삭제할까?</h2>
+      <p id="confirm-text">이 작업은 되돌릴 수 없어 (히스토리는 git에 남음).</p>
+      <div class="modal-actions">
+        <button type="button" id="confirm-cancel" class="btn btn-ghost">취소</button>
+        <button type="button" id="confirm-ok" class="btn btn-danger">삭제</button>
+      </div>
+    </form>
+  </dialog>
 
   <main>
     <section class="view" id="view-overview">
@@ -43,6 +250,7 @@
           <div class="stat-label">D-day</div>
           <div class="stat-value" id="dday">—</div>
           <div class="stat-foot" id="dday-foot"></div>
+          <div class="edit-only stat-edit"><label>런칭일 <input type="date" id="launch-date-edit"></label></div>
         </div>
         <div class="card stat">
           <div class="stat-label">진행중 / 막힘</div>
@@ -98,13 +306,22 @@
         </div>
       </div>
       <div id="stages-list"></div>
+      <div class="edit-only add-stage-row">
+        <button id="btn-add-stage" class="btn btn-ghost">+ 새 단계 추가</button>
+      </div>
     </section>
 
     <section class="view hidden" id="view-people">
       <div id="people-list"></div>
+      <div class="edit-only add-stage-row">
+        <button id="btn-add-member" class="btn btn-ghost">+ 멤버 추가</button>
+      </div>
     </section>
 
     <section class="view hidden" id="view-meetings">
+      <div class="edit-only meetings-toolbar">
+        <button id="btn-add-meeting" class="btn btn-primary">+ 새 회의록</button>
+      </div>
       <div class="meetings-layout">
         <aside class="meetings-side">
           <h3>회의록</h3>
@@ -123,6 +340,9 @@
             <select id="idea-category"><option value="">전체</option></select>
           </label>
         </div>
+        <div class="edit-only">
+          <button id="btn-add-idea" class="btn btn-primary">+ 새 아이디어</button>
+        </div>
       </div>
       <div id="ideas-grid" class="ideas-grid"></div>
     </section>
@@ -130,32 +350,38 @@
     <section class="view hidden" id="view-guide">
       <article class="card guide">
         <h2>이 대시보드 사용법</h2>
-        <p>코드를 몰라도 깃허브 웹에서 파일만 수정하면 바로 반영돼.</p>
+        <p>오른쪽 위 <b>편집 모드</b> 버튼을 켜면 사이트 안에서 직접 수정 가능. 저장하면 깃허브에 자동 커밋되고 1~2분 뒤 모든 멤버 화면에 반영돼.</p>
 
-        <h3>1. 태스크 / 진척도 업데이트</h3>
-        <p><code>data/stages.json</code> 의 각 task에서 <code>status</code> 를
-          <code>todo</code> / <code>doing</code> / <code>done</code> / <code>blocked</code> 중 하나로 바꿔 저장하면 끝이야.
-          담당자(<code>owner</code>)와 마감일(<code>due</code>: <code>YYYY-MM-DD</code>)도 같은 파일에서 수정해.</p>
-
-        <h3>2. 회의록 추가</h3>
+        <h3>1. 처음 한 번 — 토큰 발급 (1분)</h3>
         <ol>
-          <li><code>data/meetings/</code> 안에 <code>2026-05-02-주간회의.md</code> 같은 마크다운 파일을 새로 만들어.</li>
-          <li><code>data/meetings.json</code> 의 배열 맨 앞에 한 줄을 추가:
-            <pre>{ "date": "2026-05-02", "title": "주간 회의", "file": "data/meetings/2026-05-02-주간회의.md", "attendees": ["가영","멤버2"] }</pre>
-          </li>
+          <li><a href="https://github.com/settings/personal-access-tokens/new" target="_blank" rel="noopener">github.com → Settings → Developer settings → Personal access tokens → Fine-grained tokens → Generate new token</a></li>
+          <li><b>Resource owner</b>: <code>ameliepgy314</code>, <b>Repository access</b>: Only select repositories → <code>triview</code></li>
+          <li><b>Repository permissions → Contents</b>: <b>Read and write</b></li>
+          <li>"Generate token" → 나오는 <code>github_pat_...</code> 토큰을 복사</li>
+          <li>대시보드 우측 상단 <b>편집 모드</b> 버튼 → 토큰 붙여넣기 → 끝. 브라우저(localStorage)에만 저장.</li>
         </ol>
 
-        <h3>3. 아이디어 추가</h3>
-        <p><code>data/ideas.json</code> 의 <code>ideas</code> 배열에 항목을 추가. 카테고리는 자유롭게 추가해도 돼 (예: 브랜드, 제품, 마케팅, 패키지, 채널).</p>
+        <h3>2. 편집 모드에서 할 수 있는 것</h3>
+        <ul>
+          <li><b>태스크</b> — 상태/담당자/마감일 변경, 제목·메모 수정, 추가, 삭제</li>
+          <li><b>단계</b> — 추가, 이름·설명 수정</li>
+          <li><b>회의록</b> — "+ 새 회의록" 버튼 → 모달에 작성 → 자동으로 .md 파일 + 인덱스 갱신</li>
+          <li><b>아이디어</b> — 카드 위에서 직접 수정 / 삭제 / 추가</li>
+          <li><b>멤버</b> — 이름·역할·색상 수정, 추가</li>
+          <li><b>D-day</b> — 대시보드 탭의 D-day 카드에서 런칭일 변경</li>
+        </ul>
 
-        <h3>4. 멤버 변경</h3>
-        <p><code>data/team.json</code> 에서 이름/역할/색상을 수정. <code>id</code> 는 stages/ideas에서 owner로 쓰는 키니까 바꾸면 다른 곳도 같이 업데이트해야 해.</p>
+        <h3>3. 동시 편집 충돌</h3>
+        <p>두 명이 같은 파일을 동시에 저장하면 두 번째 사람이 충돌 알림을 받아. 자동으로 최신 데이터를 다시 가져온 뒤 다시 저장하면 돼.</p>
 
-        <h3>5. 배포</h3>
-        <p>리포 Settings → Pages → <em>Deploy from a branch</em> → <code>main</code> / <code>(root)</code> 로 설정하면 1~2분 뒤 <code>https://ameliepgy314.github.io/triview/</code> 에서 보여.</p>
+        <h3>4. 모든 변경은 깃 히스토리에 남음</h3>
+        <p>누가 언제 뭘 바꿨는지 모두 커밋으로 기록돼. <a href="https://github.com/ameliepgy314/triview/commits/main" target="_blank" rel="noopener">commits 페이지</a>에서 확인.</p>
 
-        <h3>6. D-day 변경</h3>
-        <p><code>data/config.json</code> 의 <code>launchDate</code> 수정. (<code>YYYY-MM-DD</code>)</p>
+        <h3>5. 토큰을 잃어버렸거나 다른 PC에서 사용</h3>
+        <p>토큰은 브라우저별로 저장되니 다른 PC에선 다시 입력해야 해. 새 토큰을 발급해도 되고, 기존 토큰을 가져와도 됨. 토큰 분실 시 GitHub Settings에서 즉시 폐기 가능.</p>
+
+        <h3>6. 토큰 없이 사용</h3>
+        <p>편집 모드를 안 켜면 그냥 읽기만 됨 (보기 권한). 멤버 중 일부는 읽기 전용으로만 써도 무방.</p>
       </article>
     </section>
   </main>
