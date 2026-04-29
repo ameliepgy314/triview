@@ -1,0 +1,166 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>trua · 런칭 대시보드</title>
+  <link rel="preconnect" href="https://cdn.jsdelivr.net" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css" />
+  <link rel="stylesheet" href="assets/style.css" />
+</head>
+<body>
+  <header class="topbar">
+    <div class="brand">
+      <span class="logo-dot"></span>
+      <div>
+        <div class="brand-name">trua</div>
+        <div class="brand-sub">launch dashboard</div>
+      </div>
+    </div>
+    <nav class="tabs" id="tabs">
+      <button class="tab active" data-tab="overview">대시보드</button>
+      <button class="tab" data-tab="stages">런칭 단계</button>
+      <button class="tab" data-tab="people">담당</button>
+      <button class="tab" data-tab="meetings">회의록</button>
+      <button class="tab" data-tab="ideas">아이데이션</button>
+      <button class="tab" data-tab="guide">가이드</button>
+    </nav>
+    <div class="topbar-meta">
+      <span id="last-updated"></span>
+    </div>
+  </header>
+
+  <main>
+    <section class="view" id="view-overview">
+      <div class="grid">
+        <div class="card stat">
+          <div class="stat-label">전체 진척도</div>
+          <div class="stat-value" id="overall-progress">—</div>
+          <div class="progress"><div class="progress-bar" id="overall-bar" style="width:0%"></div></div>
+          <div class="stat-foot" id="overall-foot"></div>
+        </div>
+        <div class="card stat">
+          <div class="stat-label">D-day</div>
+          <div class="stat-value" id="dday">—</div>
+          <div class="stat-foot" id="dday-foot"></div>
+        </div>
+        <div class="card stat">
+          <div class="stat-label">진행중 / 막힘</div>
+          <div class="stat-value" id="doing-count">—</div>
+          <div class="stat-foot" id="doing-foot"></div>
+        </div>
+      </div>
+
+      <div class="grid grid-2">
+        <div class="card">
+          <h3>단계별 진척도</h3>
+          <div id="stage-progress-list"></div>
+        </div>
+        <div class="card">
+          <h3>이번 주 마감 임박</h3>
+          <div id="upcoming-list"></div>
+        </div>
+      </div>
+
+      <div class="grid grid-2">
+        <div class="card">
+          <h3>최근 회의록</h3>
+          <div id="recent-meetings"></div>
+        </div>
+        <div class="card">
+          <h3>새 아이디어</h3>
+          <div id="recent-ideas"></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="view hidden" id="view-stages">
+      <div class="toolbar">
+        <div class="filters">
+          <label>담당자
+            <select id="filter-owner"><option value="">전체</option></select>
+          </label>
+          <label>상태
+            <select id="filter-status">
+              <option value="">전체</option>
+              <option value="todo">대기</option>
+              <option value="doing">진행중</option>
+              <option value="done">완료</option>
+              <option value="blocked">막힘</option>
+            </select>
+          </label>
+        </div>
+        <div class="legend">
+          <span class="dot dot-todo"></span>대기
+          <span class="dot dot-doing"></span>진행중
+          <span class="dot dot-done"></span>완료
+          <span class="dot dot-blocked"></span>막힘
+        </div>
+      </div>
+      <div id="stages-list"></div>
+    </section>
+
+    <section class="view hidden" id="view-people">
+      <div id="people-list"></div>
+    </section>
+
+    <section class="view hidden" id="view-meetings">
+      <div class="meetings-layout">
+        <aside class="meetings-side">
+          <h3>회의록</h3>
+          <div id="meetings-index"></div>
+        </aside>
+        <article class="meetings-body card" id="meeting-body">
+          <div class="empty">왼쪽에서 회의를 선택하세요.</div>
+        </article>
+      </div>
+    </section>
+
+    <section class="view hidden" id="view-ideas">
+      <div class="toolbar">
+        <div class="filters">
+          <label>카테고리
+            <select id="idea-category"><option value="">전체</option></select>
+          </label>
+        </div>
+      </div>
+      <div id="ideas-grid" class="ideas-grid"></div>
+    </section>
+
+    <section class="view hidden" id="view-guide">
+      <article class="card guide">
+        <h2>이 대시보드 사용법</h2>
+        <p>코드를 몰라도 깃허브 웹에서 파일만 수정하면 바로 반영돼.</p>
+
+        <h3>1. 태스크 / 진척도 업데이트</h3>
+        <p><code>data/stages.json</code> 의 각 task에서 <code>status</code> 를
+          <code>todo</code> / <code>doing</code> / <code>done</code> / <code>blocked</code> 중 하나로 바꿔 저장하면 끝이야.
+          담당자(<code>owner</code>)와 마감일(<code>due</code>: <code>YYYY-MM-DD</code>)도 같은 파일에서 수정해.</p>
+
+        <h3>2. 회의록 추가</h3>
+        <ol>
+          <li><code>data/meetings/</code> 안에 <code>2026-05-02-주간회의.md</code> 같은 마크다운 파일을 새로 만들어.</li>
+          <li><code>data/meetings.json</code> 의 배열 맨 앞에 한 줄을 추가:
+            <pre>{ "date": "2026-05-02", "title": "주간 회의", "file": "data/meetings/2026-05-02-주간회의.md", "attendees": ["가영","멤버2"] }</pre>
+          </li>
+        </ol>
+
+        <h3>3. 아이디어 추가</h3>
+        <p><code>data/ideas.json</code> 의 <code>ideas</code> 배열에 항목을 추가. 카테고리는 자유롭게 추가해도 돼 (예: 브랜드, 제품, 마케팅, 패키지, 채널).</p>
+
+        <h3>4. 멤버 변경</h3>
+        <p><code>data/team.json</code> 에서 이름/역할/색상을 수정. <code>id</code> 는 stages/ideas에서 owner로 쓰는 키니까 바꾸면 다른 곳도 같이 업데이트해야 해.</p>
+
+        <h3>5. 배포</h3>
+        <p>리포 Settings → Pages → <em>Deploy from a branch</em> → <code>main</code> / <code>(root)</code> 로 설정하면 1~2분 뒤 <code>https://ameliepgy314.github.io/triview/</code> 에서 보여.</p>
+
+        <h3>6. D-day 변경</h3>
+        <p><code>data/config.json</code> 의 <code>launchDate</code> 수정. (<code>YYYY-MM-DD</code>)</p>
+      </article>
+    </section>
+  </main>
+
+  <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+  <script src="assets/app.js"></script>
+</body>
+</html>

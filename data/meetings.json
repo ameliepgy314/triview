@@ -1,0 +1,10 @@
+{
+  "meetings": [
+    {
+      "date": "2026-04-29",
+      "title": "킥오프 — 런칭 일정·역할 정렬",
+      "file": "data/meetings/2026-04-29-kickoff.md",
+      "attendees": ["가영", "멤버2", "멤버3"]
+    }
+  ]
+}
