@@ -6,12 +6,50 @@
       "name": "브랜드 전략 & 기획",
       "description": "포지셔닝과 톤을 먼저 못 박아야 모든 실행이 흔들리지 않음",
       "tasks": [
-        { "id":"1.1", "title":"브랜드 미션·비전·핵심가치 정의", "owner":"gayoung", "status":"doing", "due":"2026-05-10", "notes":"trua = true + 아우라. 'true clean, daily' 후보 카피" },
-        { "id":"1.2", "title":"타겟 페르소나 2개 확정 (1차/2차)", "owner":"gayoung", "status":"todo", "due":"2026-05-15" },
-        { "id":"1.3", "title":"경쟁사/레퍼런스 분석 (메소드, 더후, 라보에이치, 프라우드웨이 등)", "owner":"jiyeon", "status":"todo", "due":"2026-05-12" },
-        { "id":"1.4", "title":"브랜드 네이밍 최종 확정 (상표 사용가능성 검색 포함)", "owner":"gayoung", "status":"doing", "due":"2026-05-08", "notes":"키프리스에서 동일/유사 상표 검색" },
-        { "id":"1.5", "title":"브랜드 스토리/네러티브 1차 작성", "owner":"gayoung", "status":"todo", "due":"2026-05-22" },
-        { "id":"1.6", "title":"브랜드 톤앤매너 가이드 (보이스/비주얼)", "owner":"jiyeon", "status":"todo", "due":"2026-05-29" }
+        {
+          "id": "1.1",
+          "title": "브랜드 미션·비전·핵심가치 정의",
+          "owner": "gayoung",
+          "status": "done",
+          "due": "2026-05-10",
+          "notes": "trua = true + 아우라. 'true clean, daily' 후보 카피"
+        },
+        {
+          "id": "1.2",
+          "title": "타겟 페르소나 2개 확정 (1차/2차)",
+          "owner": "gayoung",
+          "status": "todo",
+          "due": "2026-05-15"
+        },
+        {
+          "id": "1.3",
+          "title": "경쟁사/레퍼런스 분석 (메소드, 더후, 라보에이치, 프라우드웨이 등)",
+          "owner": "jiyeon",
+          "status": "todo",
+          "due": "2026-05-12"
+        },
+        {
+          "id": "1.4",
+          "title": "브랜드 네이밍 최종 확정 (상표 사용가능성 검색 포함)",
+          "owner": "gayoung",
+          "status": "doing",
+          "due": "2026-05-08",
+          "notes": "키프리스에서 동일/유사 상표 검색"
+        },
+        {
+          "id": "1.5",
+          "title": "브랜드 스토리/네러티브 1차 작성",
+          "owner": "gayoung",
+          "status": "todo",
+          "due": "2026-05-22"
+        },
+        {
+          "id": "1.6",
+          "title": "브랜드 톤앤매너 가이드 (보이스/비주얼)",
+          "owner": "jiyeon",
+          "status": "todo",
+          "due": "2026-05-29"
+        }
       ]
     },
     {
@@ -20,13 +58,57 @@
       "name": "제품 개발",
       "description": "처방·제형·향까지 결정되어야 패키지/규제가 따라옴",
       "tasks": [
-        { "id":"2.1", "title":"제품 라인업 1차 결정 (액체세제 / 섬유유연제 / 캡슐 / 주방세제 중 무엇)", "owner":"gayoung", "status":"doing", "due":"2026-05-05", "notes":"초도는 1~2 SKU로 제한 권장" },
-        { "id":"2.2", "title":"성분·향 컨셉 정의 (식약처 EWG 기준, 무첨가 리스트)", "owner":"soyoung", "status":"todo", "due":"2026-05-15" },
-        { "id":"2.3", "title":"ODM/OEM 후보 3곳 컨택 및 견적", "owner":"soyoung", "status":"todo", "due":"2026-05-20", "notes":"코스맥스바이오, 한국콜마, 케미메디 등" },
-        { "id":"2.4", "title":"NDA 체결 후 시제품 의뢰", "owner":"soyoung", "status":"todo", "due":"2026-06-05" },
-        { "id":"2.5", "title":"내부 블라인드 테스트 (3인 + 외부 5인)", "owner":"soyoung", "status":"todo", "due":"2026-06-25" },
-        { "id":"2.6", "title":"처방 1차 수정 → 2차 시제품", "owner":"soyoung", "status":"todo", "due":"2026-07-10" },
-        { "id":"2.7", "title":"최종 처방 확정 + 양산 사양서 수령", "owner":"soyoung", "status":"todo", "due":"2026-07-25" }
+        {
+          "id": "2.1",
+          "title": "제품 라인업 1차 결정 (액체세제 / 섬유유연제 / 캡슐 / 주방세제 중 무엇)",
+          "owner": "gayoung",
+          "status": "doing",
+          "due": "2026-05-05",
+          "notes": "초도는 1~2 SKU로 제한 권장"
+        },
+        {
+          "id": "2.2",
+          "title": "성분·향 컨셉 정의 (식약처 EWG 기준, 무첨가 리스트)",
+          "owner": "soyoung",
+          "status": "todo",
+          "due": "2026-05-15"
+        },
+        {
+          "id": "2.3",
+          "title": "ODM/OEM 후보 3곳 컨택 및 견적",
+          "owner": "soyoung",
+          "status": "todo",
+          "due": "2026-05-20",
+          "notes": "코스맥스바이오, 한국콜마, 케미메디 등"
+        },
+        {
+          "id": "2.4",
+          "title": "NDA 체결 후 시제품 의뢰",
+          "owner": "soyoung",
+          "status": "todo",
+          "due": "2026-06-05"
+        },
+        {
+          "id": "2.5",
+          "title": "내부 블라인드 테스트 (3인 + 외부 5인)",
+          "owner": "soyoung",
+          "status": "todo",
+          "due": "2026-06-25"
+        },
+        {
+          "id": "2.6",
+          "title": "처방 1차 수정 → 2차 시제품",
+          "owner": "soyoung",
+          "status": "todo",
+          "due": "2026-07-10"
+        },
+        {
+          "id": "2.7",
+          "title": "최종 처방 확정 + 양산 사양서 수령",
+          "owner": "soyoung",
+          "status": "todo",
+          "due": "2026-07-25"
+        }
       ]
     },
     {
@@ -35,11 +117,43 @@
       "name": "규제 / 인증 (생활화학제품)",
       "description": "환경부 안전확인대상 신고 — 누락하면 출시 자체가 불가능",
       "tasks": [
-        { "id":"3.1", "title":"제품군이 '안전확인대상생활화학제품' 해당 여부 확인 (세탁세제·섬유유연제·주방세제 모두 해당)", "owner":"soyoung", "status":"todo", "due":"2026-05-15", "notes":"환경부 화학제품관리시스템(초록누리) 확인" },
-        { "id":"3.2", "title":"시험기관 의뢰 (KOTITI / KCL / FITI 중)", "owner":"soyoung", "status":"todo", "due":"2026-07-30" },
-        { "id":"3.3", "title":"안전기준 적합 시험성적서 수령", "owner":"soyoung", "status":"todo", "due":"2026-08-15" },
-        { "id":"3.4", "title":"초록누리에 안전확인 신고 등록", "owner":"soyoung", "status":"todo", "due":"2026-08-20", "notes":"신고 후 영업 가능. 보통 2~4주 소요" },
-        { "id":"3.5", "title":"표시기재사항 검토 (성분, 주의사항, 제조번호, 신고번호 등)", "owner":"jiyeon", "status":"todo", "due":"2026-08-22" }
+        {
+          "id": "3.1",
+          "title": "제품군이 '안전확인대상생활화학제품' 해당 여부 확인 (세탁세제·섬유유연제·주방세제 모두 해당)",
+          "owner": "soyoung",
+          "status": "todo",
+          "due": "2026-05-15",
+          "notes": "환경부 화학제품관리시스템(초록누리) 확인"
+        },
+        {
+          "id": "3.2",
+          "title": "시험기관 의뢰 (KOTITI / KCL / FITI 중)",
+          "owner": "soyoung",
+          "status": "todo",
+          "due": "2026-07-30"
+        },
+        {
+          "id": "3.3",
+          "title": "안전기준 적합 시험성적서 수령",
+          "owner": "soyoung",
+          "status": "todo",
+          "due": "2026-08-15"
+        },
+        {
+          "id": "3.4",
+          "title": "초록누리에 안전확인 신고 등록",
+          "owner": "soyoung",
+          "status": "todo",
+          "due": "2026-08-20",
+          "notes": "신고 후 영업 가능. 보통 2~4주 소요"
+        },
+        {
+          "id": "3.5",
+          "title": "표시기재사항 검토 (성분, 주의사항, 제조번호, 신고번호 등)",
+          "owner": "jiyeon",
+          "status": "todo",
+          "due": "2026-08-22"
+        }
       ]
     },
     {
@@ -48,10 +162,36 @@
       "name": "지식재산 / 법무",
       "description": "상표·도메인은 한 번 놓치면 회복이 어려움",
       "tasks": [
-        { "id":"4.1", "title":"상표 출원 (특허청, 03·05·44류)", "owner":"gayoung", "status":"todo", "due":"2026-05-12", "notes":"세제는 03류. 특허법인 컨택" },
-        { "id":"4.2", "title":"도메인 확보 (trua.kr / trua.co.kr / get-trua.com 등)", "owner":"gayoung", "status":"todo", "due":"2026-05-06" },
-        { "id":"4.3", "title":"인스타/유튜브/카카오 채널 핸들 선점", "owner":"jiyeon", "status":"todo", "due":"2026-05-06" },
-        { "id":"4.4", "title":"사업자등록 / 통신판매업 신고 여부 결정", "owner":"gayoung", "status":"todo", "due":"2026-05-20", "notes":"기존 법인 활용 vs 신규 법인" }
+        {
+          "id": "4.1",
+          "title": "상표 출원 (특허청, 03·05·44류)",
+          "owner": "gayoung",
+          "status": "todo",
+          "due": "2026-05-12",
+          "notes": "세제는 03류. 특허법인 컨택"
+        },
+        {
+          "id": "4.2",
+          "title": "도메인 확보 (trua.kr / trua.co.kr / get-trua.com 등)",
+          "owner": "gayoung",
+          "status": "todo",
+          "due": "2026-05-06"
+        },
+        {
+          "id": "4.3",
+          "title": "인스타/유튜브/카카오 채널 핸들 선점",
+          "owner": "jiyeon",
+          "status": "todo",
+          "due": "2026-05-06"
+        },
+        {
+          "id": "4.4",
+          "title": "사업자등록 / 통신판매업 신고 여부 결정",
+          "owner": "gayoung",
+          "status": "todo",
+          "due": "2026-05-20",
+          "notes": "기존 법인 활용 vs 신규 법인"
+        }
       ]
     },
     {
@@ -60,12 +200,48 @@
       "name": "패키징 & 디자인",
       "description": "용기 발주는 리드타임이 길어 일찍 시작",
       "tasks": [
-        { "id":"5.1", "title":"용기 컨셉/사양 결정 (재질, 용량, 펌프/캡)", "owner":"jiyeon", "status":"todo", "due":"2026-06-05" },
-        { "id":"5.2", "title":"용기/펌프 제조사 견적 및 샘플", "owner":"soyoung", "status":"todo", "due":"2026-06-15" },
-        { "id":"5.3", "title":"라벨/패키지 디자인 시안 3안", "owner":"jiyeon", "status":"todo", "due":"2026-06-25" },
-        { "id":"5.4", "title":"디자인 최종 확정 + 표시기재사항 반영", "owner":"jiyeon", "status":"todo", "due":"2026-07-10" },
-        { "id":"5.5", "title":"인쇄/용기 양산 발주", "owner":"soyoung", "status":"todo", "due":"2026-07-20" },
-        { "id":"5.6", "title":"택배 박스/완충재/스티커 디자인", "owner":"jiyeon", "status":"todo", "due":"2026-08-01" }
+        {
+          "id": "5.1",
+          "title": "용기 컨셉/사양 결정 (재질, 용량, 펌프/캡)",
+          "owner": "jiyeon",
+          "status": "todo",
+          "due": "2026-06-05"
+        },
+        {
+          "id": "5.2",
+          "title": "용기/펌프 제조사 견적 및 샘플",
+          "owner": "soyoung",
+          "status": "todo",
+          "due": "2026-06-15"
+        },
+        {
+          "id": "5.3",
+          "title": "라벨/패키지 디자인 시안 3안",
+          "owner": "jiyeon",
+          "status": "todo",
+          "due": "2026-06-25"
+        },
+        {
+          "id": "5.4",
+          "title": "디자인 최종 확정 + 표시기재사항 반영",
+          "owner": "jiyeon",
+          "status": "todo",
+          "due": "2026-07-10"
+        },
+        {
+          "id": "5.5",
+          "title": "인쇄/용기 양산 발주",
+          "owner": "soyoung",
+          "status": "todo",
+          "due": "2026-07-20"
+        },
+        {
+          "id": "5.6",
+          "title": "택배 박스/완충재/스티커 디자인",
+          "owner": "jiyeon",
+          "status": "todo",
+          "due": "2026-08-01"
+        }
       ]
     },
     {
@@ -74,10 +250,35 @@
       "name": "생산 & 공급망",
       "description": "초도 물량과 입고일이 마케팅 일정의 제약 조건",
       "tasks": [
-        { "id":"6.1", "title":"초도 생산량 결정 (MOQ vs 자체 판매 추정)", "owner":"gayoung", "status":"todo", "due":"2026-07-15" },
-        { "id":"6.2", "title":"양산 일정 확정 + 발주", "owner":"soyoung", "status":"todo", "due":"2026-08-01" },
-        { "id":"6.3", "title":"3PL(물류 창고) 선정 및 계약", "owner":"soyoung", "status":"todo", "due":"2026-08-05", "notes":"두손, 위킵, 파스토 등" },
-        { "id":"6.4", "title":"입고 일정 확인 + 검수 절차 정립", "owner":"soyoung", "status":"todo", "due":"2026-08-25" }
+        {
+          "id": "6.1",
+          "title": "초도 생산량 결정 (MOQ vs 자체 판매 추정)",
+          "owner": "gayoung",
+          "status": "todo",
+          "due": "2026-07-15"
+        },
+        {
+          "id": "6.2",
+          "title": "양산 일정 확정 + 발주",
+          "owner": "soyoung",
+          "status": "todo",
+          "due": "2026-08-01"
+        },
+        {
+          "id": "6.3",
+          "title": "3PL(물류 창고) 선정 및 계약",
+          "owner": "soyoung",
+          "status": "todo",
+          "due": "2026-08-05",
+          "notes": "두손, 위킵, 파스토 등"
+        },
+        {
+          "id": "6.4",
+          "title": "입고 일정 확인 + 검수 절차 정립",
+          "owner": "soyoung",
+          "status": "todo",
+          "due": "2026-08-25"
+        }
       ]
     },
     {
@@ -86,11 +287,42 @@
       "name": "채널 / 유통",
       "description": "자사몰 + 1~2 외부 채널로 시작하는 게 효율적",
       "tasks": [
-        { "id":"7.1", "title":"자사몰 플랫폼 결정 (카페24 / 식스샵 / 쇼피파이)", "owner":"jiyeon", "status":"todo", "due":"2026-06-10" },
-        { "id":"7.2", "title":"자사몰 디자인·결제·배송 세팅", "owner":"jiyeon", "status":"todo", "due":"2026-08-10" },
-        { "id":"7.3", "title":"네이버 스마트스토어 입점", "owner":"jiyeon", "status":"todo", "due":"2026-08-15" },
-        { "id":"7.4", "title":"쿠팡 로켓그로스 입점 검토 + 결정", "owner":"gayoung", "status":"todo", "due":"2026-07-20" },
-        { "id":"7.5", "title":"와디즈 펀딩 진행 여부 결정", "owner":"gayoung", "status":"todo", "due":"2026-06-01", "notes":"결정 시 메이커 등록 + 페이지 제작 별도" }
+        {
+          "id": "7.1",
+          "title": "자사몰 플랫폼 결정 (카페24 / 식스샵 / 쇼피파이)",
+          "owner": "jiyeon",
+          "status": "todo",
+          "due": "2026-06-10"
+        },
+        {
+          "id": "7.2",
+          "title": "자사몰 디자인·결제·배송 세팅",
+          "owner": "jiyeon",
+          "status": "todo",
+          "due": "2026-08-10"
+        },
+        {
+          "id": "7.3",
+          "title": "네이버 스마트스토어 입점",
+          "owner": "jiyeon",
+          "status": "todo",
+          "due": "2026-08-15"
+        },
+        {
+          "id": "7.4",
+          "title": "쿠팡 로켓그로스 입점 검토 + 결정",
+          "owner": "gayoung",
+          "status": "todo",
+          "due": "2026-07-20"
+        },
+        {
+          "id": "7.5",
+          "title": "와디즈 펀딩 진행 여부 결정",
+          "owner": "gayoung",
+          "status": "todo",
+          "due": "2026-06-01",
+          "notes": "결정 시 메이커 등록 + 페이지 제작 별도"
+        }
       ]
     },
     {
@@ -99,9 +331,27 @@
       "name": "가격 & 원가",
       "description": "마진 시뮬은 초도 발주 전에 끝나야 함",
       "tasks": [
-        { "id":"8.1", "title":"품목별 원가 계산 (제조원가 + 패키지 + 물류 + 수수료)", "owner":"gayoung", "status":"todo", "due":"2026-07-15" },
-        { "id":"8.2", "title":"채널별 판매가 정책 수립", "owner":"gayoung", "status":"todo", "due":"2026-07-25" },
-        { "id":"8.3", "title":"런칭 프로모션 가격 / 세트 구성 결정", "owner":"jiyeon", "status":"todo", "due":"2026-08-05" }
+        {
+          "id": "8.1",
+          "title": "품목별 원가 계산 (제조원가 + 패키지 + 물류 + 수수료)",
+          "owner": "gayoung",
+          "status": "todo",
+          "due": "2026-07-15"
+        },
+        {
+          "id": "8.2",
+          "title": "채널별 판매가 정책 수립",
+          "owner": "gayoung",
+          "status": "todo",
+          "due": "2026-07-25"
+        },
+        {
+          "id": "8.3",
+          "title": "런칭 프로모션 가격 / 세트 구성 결정",
+          "owner": "jiyeon",
+          "status": "todo",
+          "due": "2026-08-05"
+        }
       ]
     },
     {
@@ -110,11 +360,41 @@
       "name": "마케팅 컨텐츠",
       "description": "양산 전 시제품으로 촬영 가능. 일정 압박 큰 영역",
       "tasks": [
-        { "id":"9.1", "title":"제품 사진 촬영 (스튜디오 / 라이프스타일 / 누끼)", "owner":"jiyeon", "status":"todo", "due":"2026-08-05" },
-        { "id":"9.2", "title":"상세페이지 구성안 + 카피", "owner":"jiyeon", "status":"todo", "due":"2026-08-12" },
-        { "id":"9.3", "title":"상세페이지 디자인 완성", "owner":"jiyeon", "status":"todo", "due":"2026-08-20" },
-        { "id":"9.4", "title":"브랜드 무드 영상 (15초·30초·60초)", "owner":"jiyeon", "status":"todo", "due":"2026-08-22" },
-        { "id":"9.5", "title":"인스타 피드 12장 + 릴스 4편 사전 제작", "owner":"jiyeon", "status":"todo", "due":"2026-08-25" }
+        {
+          "id": "9.1",
+          "title": "제품 사진 촬영 (스튜디오 / 라이프스타일 / 누끼)",
+          "owner": "jiyeon",
+          "status": "todo",
+          "due": "2026-08-05"
+        },
+        {
+          "id": "9.2",
+          "title": "상세페이지 구성안 + 카피",
+          "owner": "jiyeon",
+          "status": "todo",
+          "due": "2026-08-12"
+        },
+        {
+          "id": "9.3",
+          "title": "상세페이지 디자인 완성",
+          "owner": "jiyeon",
+          "status": "todo",
+          "due": "2026-08-20"
+        },
+        {
+          "id": "9.4",
+          "title": "브랜드 무드 영상 (15초·30초·60초)",
+          "owner": "jiyeon",
+          "status": "todo",
+          "due": "2026-08-22"
+        },
+        {
+          "id": "9.5",
+          "title": "인스타 피드 12장 + 릴스 4편 사전 제작",
+          "owner": "jiyeon",
+          "status": "todo",
+          "due": "2026-08-25"
+        }
       ]
     },
     {
@@ -123,11 +403,41 @@
       "name": "마케팅 / PR / 광고",
       "description": "런칭 전후 4주가 가장 중요",
       "tasks": [
-        { "id":"10.1", "title":"인플루언서/크리에이터 시딩 리스트 30명", "owner":"jiyeon", "status":"todo", "due":"2026-07-30" },
-        { "id":"10.2", "title":"체험단/사전 신청자 모집 페이지", "owner":"jiyeon", "status":"todo", "due":"2026-08-05" },
-        { "id":"10.3", "title":"PR 보도자료 + 매체 컨택 리스트", "owner":"gayoung", "status":"todo", "due":"2026-08-15" },
-        { "id":"10.4", "title":"메타·구글·네이버 광고 계정/픽셀 세팅", "owner":"jiyeon", "status":"todo", "due":"2026-08-10" },
-        { "id":"10.5", "title":"런칭 첫 4주 광고 운영 플랜 + 예산", "owner":"gayoung", "status":"todo", "due":"2026-08-20" }
+        {
+          "id": "10.1",
+          "title": "인플루언서/크리에이터 시딩 리스트 30명",
+          "owner": "jiyeon",
+          "status": "todo",
+          "due": "2026-07-30"
+        },
+        {
+          "id": "10.2",
+          "title": "체험단/사전 신청자 모집 페이지",
+          "owner": "jiyeon",
+          "status": "todo",
+          "due": "2026-08-05"
+        },
+        {
+          "id": "10.3",
+          "title": "PR 보도자료 + 매체 컨택 리스트",
+          "owner": "gayoung",
+          "status": "todo",
+          "due": "2026-08-15"
+        },
+        {
+          "id": "10.4",
+          "title": "메타·구글·네이버 광고 계정/픽셀 세팅",
+          "owner": "jiyeon",
+          "status": "todo",
+          "due": "2026-08-10"
+        },
+        {
+          "id": "10.5",
+          "title": "런칭 첫 4주 광고 운영 플랜 + 예산",
+          "owner": "gayoung",
+          "status": "todo",
+          "due": "2026-08-20"
+        }
       ]
     },
     {
@@ -136,10 +446,34 @@
       "name": "CS / 운영",
       "description": "리뷰 1~2주가 브랜드 평판을 결정",
       "tasks": [
-        { "id":"11.1", "title":"카카오톡 채널 + CS 메일 셋업", "owner":"jiyeon", "status":"todo", "due":"2026-08-15" },
-        { "id":"11.2", "title":"FAQ 작성 (배송/환불/사용법/안전)", "owner":"jiyeon", "status":"todo", "due":"2026-08-18" },
-        { "id":"11.3", "title":"반품/교환 정책 + 약관/개인정보처리방침", "owner":"gayoung", "status":"todo", "due":"2026-08-20" },
-        { "id":"11.4", "title":"리뷰 응대 가이드 / 부정 리뷰 대응 시나리오", "owner":"gayoung", "status":"todo", "due":"2026-08-25" }
+        {
+          "id": "11.1",
+          "title": "카카오톡 채널 + CS 메일 셋업",
+          "owner": "jiyeon",
+          "status": "todo",
+          "due": "2026-08-15"
+        },
+        {
+          "id": "11.2",
+          "title": "FAQ 작성 (배송/환불/사용법/안전)",
+          "owner": "jiyeon",
+          "status": "todo",
+          "due": "2026-08-18"
+        },
+        {
+          "id": "11.3",
+          "title": "반품/교환 정책 + 약관/개인정보처리방침",
+          "owner": "gayoung",
+          "status": "todo",
+          "due": "2026-08-20"
+        },
+        {
+          "id": "11.4",
+          "title": "리뷰 응대 가이드 / 부정 리뷰 대응 시나리오",
+          "owner": "gayoung",
+          "status": "todo",
+          "due": "2026-08-25"
+        }
       ]
     },
     {
@@ -148,10 +482,34 @@
       "name": "런칭 D-day",
       "description": "사전 알림 → 오픈 → 모니터링 시퀀스",
       "tasks": [
-        { "id":"12.1", "title":"사전 알림 발송 (이메일/카톡/SNS)", "owner":"jiyeon", "status":"todo", "due":"2026-08-28" },
-        { "id":"12.2", "title":"D-1 점검 (자사몰 결제 / 재고 / 광고 / CS)", "owner":"gayoung", "status":"todo", "due":"2026-08-31" },
-        { "id":"12.3", "title":"런칭 오픈 + 라이브 모니터링", "owner":"gayoung", "status":"todo", "due":"2026-09-01" },
-        { "id":"12.4", "title":"런칭 당일 콘텐츠 발행 (인스타 라이브/스토리)", "owner":"jiyeon", "status":"todo", "due":"2026-09-01" }
+        {
+          "id": "12.1",
+          "title": "사전 알림 발송 (이메일/카톡/SNS)",
+          "owner": "jiyeon",
+          "status": "todo",
+          "due": "2026-08-28"
+        },
+        {
+          "id": "12.2",
+          "title": "D-1 점검 (자사몰 결제 / 재고 / 광고 / CS)",
+          "owner": "gayoung",
+          "status": "todo",
+          "due": "2026-08-31"
+        },
+        {
+          "id": "12.3",
+          "title": "런칭 오픈 + 라이브 모니터링",
+          "owner": "gayoung",
+          "status": "todo",
+          "due": "2026-09-01"
+        },
+        {
+          "id": "12.4",
+          "title": "런칭 당일 콘텐츠 발행 (인스타 라이브/스토리)",
+          "owner": "jiyeon",
+          "status": "todo",
+          "due": "2026-09-01"
+        }
       ]
     },
     {
@@ -160,10 +518,34 @@
       "name": "런칭 후 ~ 90일",
       "description": "데이터로 다음 시즌 의사결정",
       "tasks": [
-        { "id":"13.1", "title":"1주차 KPI 점검 (전환율, AOV, CAC, 후기 수)", "owner":"gayoung", "status":"todo", "due":"2026-09-08" },
-        { "id":"13.2", "title":"30일 KPI + 회고", "owner":"gayoung", "status":"todo", "due":"2026-10-01" },
-        { "id":"13.3", "title":"고객 피드백 수집 (설문/인터뷰 5명)", "owner":"jiyeon", "status":"todo", "due":"2026-10-15" },
-        { "id":"13.4", "title":"2차 SKU / 시즌 프로모션 기획", "owner":"gayoung", "status":"todo", "due":"2026-11-01" }
+        {
+          "id": "13.1",
+          "title": "1주차 KPI 점검 (전환율, AOV, CAC, 후기 수)",
+          "owner": "gayoung",
+          "status": "todo",
+          "due": "2026-09-08"
+        },
+        {
+          "id": "13.2",
+          "title": "30일 KPI + 회고",
+          "owner": "gayoung",
+          "status": "todo",
+          "due": "2026-10-01"
+        },
+        {
+          "id": "13.3",
+          "title": "고객 피드백 수집 (설문/인터뷰 5명)",
+          "owner": "jiyeon",
+          "status": "todo",
+          "due": "2026-10-15"
+        },
+        {
+          "id": "13.4",
+          "title": "2차 SKU / 시즌 프로모션 기획",
+          "owner": "gayoung",
+          "status": "todo",
+          "due": "2026-11-01"
+        }
       ]
     }
   ]
