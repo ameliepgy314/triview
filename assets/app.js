@@ -6,12 +6,12 @@ const STATE = {
   config:null, stages:[], team:[], meetings:[], ideas:[],
   filter:{owner:"",status:"",ideaCat:""},
   shas:{}, // path -> sha cache
-  editing:false,
   token:null,
   user:null,
   selectedMeetingFile:null,
   meetingBodyCache:{} // file -> {content, sha}
 };
+let pendingAuthResolve = null;
 
 const $ = id => document.getElementById(id);
 
@@ -83,6 +83,7 @@ async function ghPut(path, contentString, message, expectedSha){
 }
 
 async function ghDelete(path, message){
+  if (!await ensureAuth()) throw new Error("토큰 필요");
   let sha = STATE.shas[path];
   if (!sha){ const fresh = await ghGet(path); sha = fresh.sha; }
   const url = `https://api.github.com/repos/${REPO.owner}/${REPO.name}/contents/${encodeURI(path)}`;
@@ -145,6 +146,7 @@ function showError(msg){
 
 // ---------- save helpers
 async function saveJSON(path, obj, message){
+  if (!await ensureAuth()) throw new Error("토큰 필요");
   showSaving();
   try{
     const text = JSON.stringify(obj, null, 2) + "\n";
@@ -156,6 +158,7 @@ async function saveJSON(path, obj, message){
   }
 }
 async function saveText(path, text, message, expectedSha){
+  if (!await ensureAuth()) throw new Error("토큰 필요");
   showSaving();
   try{
     const res = await ghPut(path, text, message, expectedSha);
@@ -190,10 +193,19 @@ async function init(){
   }
 
   setupTabs();
-  setupEditMode();
+  setupTokenButton();
   setupDialogs();
   renderAll();
   $("last-updated").textContent = "마지막 갱신: " + new Date().toLocaleString("ko-KR", {hour12:false});
+
+  // Validate any saved token in the background to set authed UI state
+  if (STATE.token){
+    validateToken(STATE.token)
+      .then(u => { STATE.user = u; updateTokenButton(); })
+      .catch(() => { /* leave token; will fail on first save and re-prompt */ updateTokenButton(); });
+  } else {
+    updateTokenButton();
+  }
 }
 
 async function loadInitial(path){
@@ -238,39 +250,24 @@ function setupTabs(){
   });
 }
 
-// ---------- edit mode
-function setupEditMode(){
-  $("edit-toggle").addEventListener("click", () => {
-    if (STATE.editing){
-      // turn off
-      STATE.editing = false;
-      document.body.classList.remove("editing");
-      $("edit-toggle").classList.remove("on");
-      $("edit-toggle").textContent = "편집 모드";
-      renderAll();
-    } else {
-      // turn on — need token
-      if (!STATE.token){
-        openTokenModal();
-        return;
-      }
-      enableEditing();
-    }
-  });
-
-  // prefill date inputs in modals where useful
-  const today = new Date().toISOString().slice(0,10);
-  $("meeting-date").value = today;
+// ---------- token / auth
+function setupTokenButton(){
+  $("token-btn").addEventListener("click", () => openTokenModal());
+  if (STATE.config?.launchDate) $("launch-date-edit").value = STATE.config.launchDate;
 }
 
-function enableEditing(){
-  STATE.editing = true;
-  document.body.classList.add("editing");
-  $("edit-toggle").classList.add("on");
-  $("edit-toggle").textContent = `편집 중 · ${STATE.user?.login || "로그아웃"}`;
-  renderAll();
-  // hook config edit
-  if (STATE.config?.launchDate) $("launch-date-edit").value = STATE.config.launchDate;
+function updateTokenButton(){
+  const btn = $("token-btn");
+  if (STATE.token && STATE.user){
+    btn.classList.add("authed");
+    $("token-btn-label").textContent = STATE.user.login;
+  } else if (STATE.token){
+    btn.classList.add("authed");
+    $("token-btn-label").textContent = "토큰";
+  } else {
+    btn.classList.remove("authed");
+    $("token-btn-label").textContent = "로그인";
+  }
 }
 
 function openTokenModal(){
@@ -279,9 +276,21 @@ function openTokenModal(){
   $("token-modal").showModal();
 }
 
+// resolves true if token is set (eventually), false if user cancelled
+function ensureAuth(){
+  if (STATE.token) return Promise.resolve(true);
+  return new Promise(resolve => {
+    pendingAuthResolve = resolve;
+    openTokenModal();
+  });
+}
+
 function setupDialogs(){
   // token modal
-  $("token-cancel").addEventListener("click", () => $("token-modal").close());
+  $("token-cancel").addEventListener("click", () => {
+    $("token-modal").close();
+    if (pendingAuthResolve){ pendingAuthResolve(false); pendingAuthResolve = null; }
+  });
   $("token-save").addEventListener("click", async () => {
     const t = $("token-input").value.trim();
     if (!t){ $("token-error").textContent = "토큰을 입력해줘."; return; }
@@ -292,7 +301,8 @@ function setupDialogs(){
       STATE.user = u;
       localStorage.setItem(TOKEN_KEY, t);
       $("token-modal").close();
-      enableEditing();
+      updateTokenButton();
+      if (pendingAuthResolve){ pendingAuthResolve(true); pendingAuthResolve = null; }
     }catch(e){
       $("token-error").textContent = e.message;
     }
@@ -348,8 +358,25 @@ function confirmThen(text, fn){
 
 // ---------- helpers
 function teamById(id){ return STATE.team.find(m => m.id === id); }
+function teamByName(name){ return STATE.team.find(m => m.name === name); }
 function ownerLabel(id){ const m = teamById(id); return m ? m.name : (id || "—"); }
 function ownerColor(id){ const m = teamById(id); return m ? m.color : "#9aa3b2"; }
+function authorChip(authorId){
+  if (!authorId) return "";
+  const m = teamById(authorId);
+  if (!m) return `<span class="author-chip attendee-chip-muted">${escapeHtml(authorId)}</span>`;
+  return `<span class="author-chip" style="background:${m.color}">${escapeHtml(m.name)}</span>`;
+}
+function attendeeChips(names){
+  if (!names || !names.length) return "";
+  return names.map(n => {
+    const m = teamByName(n);
+    const color = m ? m.color : null;
+    const cls = color ? "" : " attendee-chip-muted";
+    const style = color ? ` style="background:${color}"` : "";
+    return `<span class="attendee-chip${cls}"${style}>${escapeHtml(n)}</span>`;
+  }).join("");
+}
 function allTasks(){
   const out = [];
   STATE.stages.forEach(s => (s.tasks||[]).forEach(t => out.push({...t, _stage:s})));
@@ -436,7 +463,7 @@ function renderOverview(){
     <div class="item">
       <div>
         <div>${escapeHtml(m.title)}</div>
-        <div class="meta">${escapeHtml((m.attendees||[]).join(", "))}</div>
+        <div class="meta attendees-row">${attendeeChips(m.attendees)}</div>
       </div>
       <div class="meta">${escapeHtml(m.date)}</div>
     </div>`).join("") || `<div class="empty">아직 회의록이 없어요.</div>`;
@@ -445,7 +472,7 @@ function renderOverview(){
     <div class="item">
       <div>
         <div>${escapeHtml(i.title)}</div>
-        <div class="meta">${escapeHtml(i.category)}${i.author ? " · "+escapeHtml(ownerLabel(i.author)) : ""}</div>
+        <div class="meta">${escapeHtml(i.category)} ${authorChip(i.author)}</div>
       </div>
       <div class="meta">${escapeHtml(i.date||"")}</div>
     </div>`).join("") || `<div class="empty">아이디어를 추가해보세요.</div>`;
@@ -488,7 +515,7 @@ function drawStages(){
         </span>
       </header>
       <div class="stage-body">${taskHtml}
-        <div class="add-task-row edit-only">
+        <div class="add-task-row">
           <button class="btn btn-ghost" data-act="add-task">+ 태스크 추가</button>
         </div>
       </div>
@@ -523,12 +550,13 @@ function drawStages(){
       if (ownerSel) ownerSel.addEventListener("change", e => updateTaskField(stageId, taskId, "owner", e.target.value));
       if (dueIn) dueIn.addEventListener("change", e => updateTaskField(stageId, taskId, "due", e.target.value));
       if (titleEl){
-        titleEl.addEventListener("focus", () => { if (STATE.editing) titleEl.setAttribute("contenteditable","true"); });
+        titleEl.addEventListener("click", () => titleEl.setAttribute("contenteditable","true"));
         titleEl.addEventListener("blur", () => {
-          if (!STATE.editing) return;
+          if (titleEl.getAttribute("contenteditable") !== "true") return;
           titleEl.removeAttribute("contenteditable");
           const newTitle = titleEl.textContent.trim();
-          updateTaskField(stageId, taskId, "title", newTitle);
+          if (newTitle) updateTaskField(stageId, taskId, "title", newTitle);
+          else titleEl.textContent = stage.tasks.find(t=>t.id===taskId)?.title || "";
         });
         titleEl.addEventListener("keydown", e => { if (e.key === "Enter"){ e.preventDefault(); titleEl.blur(); } });
       }
@@ -537,21 +565,17 @@ function drawStages(){
 }
 
 function taskRow(t, stage){
-  const dueLabel = t.due ? `<span class="pill ${dueClass(t.due)}">${fmtDate(t.due)}</span>` : `<span class="pill">—</span>`;
-  const ownerLabelHtml = t.owner ?
-    `<span class="owner" style="background:${ownerColor(t.owner)}">${escapeHtml(ownerLabel(t.owner))}</span>` :
-    `<span class="pill">미정</span>`;
-  const statusPill = `<span class="pill"><span class="dot dot-${t.status||"todo"}"></span>${labelStatus(t.status)}</span>`;
-
-  // edit-mode controls
   const statusSel = `<select class="inline status-sel">
     ${["todo","doing","done","blocked"].map(s => `<option value="${s}" ${s===(t.status||"todo")?"selected":""}>${labelStatus(s)}</option>`).join("")}
   </select>`;
   const ownerOpts = [`<option value="">미정</option>`].concat(
     STATE.team.map(m => `<option value="${m.id}" ${m.id===t.owner?"selected":""}>${escapeHtml(m.name)}</option>`)
   ).join("");
-  const ownerSel = `<select class="inline owner-sel">${ownerOpts}</select>`;
-  const dueIn = `<input type="date" class="inline-date due-in" value="${t.due||""}">`;
+  const ownerColorStyle = t.owner
+    ? `style="background:${ownerColor(t.owner)};color:#fff;border:0"`
+    : `style="background:#f1f3f7;color:#7b8494"`;
+  const ownerSel = `<select class="inline owner-sel" ${ownerColorStyle}>${ownerOpts}</select>`;
+  const dueIn = `<input type="date" class="inline-date due-in ${dueClass(t.due)}" value="${t.due||""}">`;
 
   return `<div class="task ${t.status||"todo"}" data-task-id="${escapeHtml(t.id)}">
     <span class="tcheck"></span>
@@ -559,13 +583,10 @@ function taskRow(t, stage){
       <div class="ttitle">${escapeHtml(t.title)}</div>
       ${t.notes ? `<span class="tnotes">${escapeHtml(t.notes)}</span>` : ""}
     </div>
-    <span class="view-only">${statusPill}</span>
-    <span class="edit-only">${statusSel}</span>
-    <span class="view-only">${ownerLabelHtml}</span>
-    <span class="edit-only">${ownerSel}</span>
-    <span class="view-only">${dueLabel}</span>
-    <span class="edit-only">${dueIn}</span>
-    <span class="task-actions edit-only">
+    ${statusSel}
+    ${ownerSel}
+    ${dueIn}
+    <span class="task-actions">
       <button class="btn-icon" data-act="edit-task" title="자세히 편집">✎</button>
       <button class="btn-icon danger" data-act="delete-task" title="삭제">×</button>
     </span>
@@ -853,7 +874,7 @@ function renderMeetings(){
     <div class="meeting-item" data-i="${i}" data-file="${escapeHtml(m.file)}">
       <div class="mt-date">${escapeHtml(m.date)}</div>
       <div class="mt-title">${escapeHtml(m.title)}</div>
-      <div class="mt-att">${escapeHtml((m.attendees||[]).join(", "))}</div>
+      <div class="mt-att attendees-row">${attendeeChips(m.attendees)}</div>
       <div class="meeting-actions">
         <button class="btn-icon" data-act="edit-meeting" title="편집">✎</button>
         <button class="btn-icon danger" data-act="delete-meeting" title="삭제">×</button>
@@ -1025,8 +1046,10 @@ function renderIdeas(){
 function drawIdeas(){
   const grid = $("ideas-grid");
   const items = STATE.ideas.filter(i => !STATE.filter.ideaCat || i.category === STATE.filter.ideaCat);
-  grid.innerHTML = items.map(i => `
-    <article class="idea" data-iid="${escapeHtml(i.id)}">
+  grid.innerHTML = items.map(i => {
+    const m = teamById(i.author);
+    const borderStyle = m ? `style="border-left:4px solid ${m.color}"` : "";
+    return `<article class="idea" ${borderStyle} data-iid="${escapeHtml(i.id)}">
       <div class="idea-actions">
         <button class="btn-icon" data-act="edit-idea" title="편집">✎</button>
         <button class="btn-icon danger" data-act="delete-idea" title="삭제">×</button>
@@ -1038,10 +1061,11 @@ function drawIdeas(){
       <div class="ititle">${escapeHtml(i.title)}</div>
       <div class="ibody">${escapeHtml(i.content||"")}</div>
       <div class="ifoot">
-        <span>${i.author ? escapeHtml(ownerLabel(i.author)) : ""}</span>
+        <span>${authorChip(i.author)}</span>
         <span>${escapeHtml(i.date||"")}</span>
       </div>
-    </article>`).join("") || `<div class="empty">아직 아이디어가 없어요.</div>`;
+    </article>`;
+  }).join("") || `<div class="empty">아직 아이디어가 없어요.</div>`;
 
   grid.querySelectorAll(".idea").forEach(el => {
     const id = el.dataset.iid;

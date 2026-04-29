@@ -172,19 +172,21 @@ main{max-width:1180px;margin:0 auto;padding:24px 28px 80px}
 .guide ul{padding-left:20px}
 .guide h3{margin-top:18px}
 
-/* ===== edit mode ===== */
+/* ===== auth + save indicator ===== */
 .edit-toggle{appearance:none;border:1px solid var(--line);background:#fff;color:var(--ink-2);
   padding:6px 12px;border-radius:999px;cursor:pointer;font-size:12.5px;font-weight:500;margin-left:10px}
 .edit-toggle:hover{border-color:#cdd4e0}
-.edit-toggle.on{background:var(--ink);color:#fff;border-color:var(--ink)}
-
-body:not(.editing) .edit-only{display:none !important}
-body.editing .view-only{display:none !important}
+.edit-toggle.authed{background:#e3f6ed;border-color:#bfead4;color:#0a7a52}
 
 .save-indicator{font-size:12px;padding:3px 10px;border-radius:999px;background:var(--pill);color:var(--ink-2);margin-left:8px}
 .save-indicator.saving{background:#fff3dd;color:#8a5a00}
 .save-indicator.saved{background:#e3f6ed;color:#0a7a52}
 .save-indicator.error{background:#fde0dc;color:#7a201a}
+
+.attendee-chip,.author-chip{display:inline-block;font-size:11px;padding:2px 9px;border-radius:999px;
+  color:#fff;font-weight:500;letter-spacing:.01em;margin:0 4px 2px 0;line-height:1.5}
+.attendee-chip-muted{background:#9aa3b2}
+.attendees-row{display:flex;flex-wrap:wrap;gap:4px;align-items:center}
 
 /* buttons */
 .btn{appearance:none;border:1px solid var(--line);background:#fff;color:var(--ink);
@@ -218,45 +220,47 @@ body.editing .view-only{display:none !important}
 .form-error{color:var(--bad);font-size:12.5px;min-height:18px;margin-top:6px}
 .modal-actions{display:flex;justify-content:flex-end;gap:8px;margin-top:14px}
 
-/* inline editing on tasks */
-body.editing .task{grid-template-columns:24px 1fr auto auto auto auto}
-body.editing .task .ttitle{cursor:text}
-body.editing .task .ttitle:hover{background:var(--accent-soft);border-radius:6px}
-body.editing .task .ttitle[contenteditable="true"]{background:#fff;outline:1px solid var(--accent);border-radius:6px;padding:0 4px}
-body.editing .task select.inline{appearance:none;border:1px solid var(--line);background:#fff;border-radius:999px;
+/* tasks — always-on inline editing */
+.task{grid-template-columns:24px 1fr auto auto auto auto}
+.task .ttitle{cursor:text}
+.task .ttitle:hover{background:var(--accent-soft);border-radius:6px}
+.task .ttitle[contenteditable="true"]{background:#fff;outline:1px solid var(--accent);border-radius:6px;padding:0 4px}
+.task select.inline{appearance:none;border:1px solid var(--line);background:#fff;border-radius:999px;
   padding:3px 22px 3px 10px;font-size:11.5px;font-family:inherit;color:var(--ink-2);
   background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='10' height='6'><path d='M0 0l5 6 5-6z' fill='%237b8494'/></svg>");
   background-repeat:no-repeat;background-position:right 8px center}
-body.editing .task input.inline-date{font-family:inherit;font-size:11.5px;border:1px solid var(--line);background:#fff;
+.task select.inline.owner-sel{color:#fff;border:0;font-weight:500}
+.task input.inline-date{font-family:inherit;font-size:11.5px;border:1px solid var(--line);background:#fff;
   border-radius:999px;padding:3px 8px;color:var(--ink-2)}
-body.editing .task .task-actions.edit-only{display:flex;gap:4px}
+.task .task-actions{display:flex;gap:2px;opacity:0;transition:opacity .15s}
+.task:hover .task-actions{opacity:1}
 
-/* stage editing */
-body.editing .stage-head{cursor:default}
-body.editing .stage-head .name[contenteditable="true"],
-body.editing .stage-head .desc[contenteditable="true"]{outline:1px solid var(--accent);border-radius:6px;padding:0 4px;background:#fff}
-.stage-actions{display:none;gap:4px;margin-left:6px}
-body.editing .stage-actions{display:flex}
+/* stage actions */
+.stage-head{cursor:default}
+.stage-head .name[contenteditable="true"],
+.stage-head .desc[contenteditable="true"]{outline:1px solid var(--accent);border-radius:6px;padding:0 4px;background:#fff}
+.stage-actions{display:flex;gap:2px;margin-left:6px;opacity:0;transition:opacity .15s}
+.stage:hover .stage-actions{opacity:1}
 .add-task-row{padding:4px 12px 6px}
 .add-task-row .btn{font-size:12.5px;padding:6px 10px;color:var(--muted)}
 .add-stage-row{margin-top:14px;text-align:center}
 
-/* idea editing */
-body.editing .idea{position:relative}
-.idea-actions{display:none;position:absolute;top:10px;right:12px;gap:4px}
-body.editing .idea-actions{display:flex}
+/* idea actions */
+.idea{position:relative}
+.idea-actions{display:flex;position:absolute;top:10px;right:12px;gap:2px;opacity:0;transition:opacity .15s}
+.idea:hover .idea-actions{opacity:1}
 
-/* people editing */
-.person-actions{display:none;gap:4px;margin-left:auto}
-body.editing .person-actions{display:flex}
+/* people actions */
+.person-actions{display:flex;gap:2px;margin-left:auto;opacity:0;transition:opacity .15s}
+.person:hover .person-actions{opacity:1}
 
 /* config edit */
 .stat-edit{margin-top:8px;font-size:12px}
 .stat-edit input{font-family:inherit;font-size:12px;padding:4px 8px;border:1px solid var(--line);border-radius:8px}
 
-.meetings-toolbar{margin-bottom:12px}
-.meeting-actions{display:none;gap:4px;margin-top:6px}
-body.editing .meeting-item:hover .meeting-actions{display:flex}
+.meetings-toolbar{margin-bottom:12px;display:flex;justify-content:flex-end}
+.meeting-actions{display:flex;gap:2px;margin-top:6px;opacity:0;transition:opacity .15s}
+.meeting-item:hover .meeting-actions{opacity:1}
 
 textarea{font-family:inherit;line-height:1.5;resize:vertical;min-height:80px}
 
