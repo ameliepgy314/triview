@@ -1,6 +1,24 @@
 {
   "ideas": [
     {
+      "id": "i_3l4wih5v8",
+      "title": "ㅇㅇ",
+      "category": "제품",
+      "status": "논의중",
+      "content": "ㅇㅇ",
+      "author": "gayoung",
+      "date": "2026-04-29"
+    },
+    {
+      "id": "i1",
+      "title": "리필 파우치 구독 모델",
+      "category": "제품",
+      "author": "gayoung",
+      "date": "2026-04-29",
+      "status": "논의중",
+      "content": "리필 파우치를 6주 단위로 자동 배송. 본품 용기는 한 번만 구매. 환경·정기수익 두 마리 토끼."
+    },
+    {
       "id": "i2",
       "title": "'무향 라인'을 첫 SKU로",
       "category": "브랜드",
